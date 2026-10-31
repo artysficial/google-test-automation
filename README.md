@@ -16,6 +16,7 @@ published on every run.
 | Fonts API | `fonts.googleapis.com/css2`: requested weights, WOFF2 delivery from gstatic, `font-display: swap`, CORS, unknown family, `text=` subsetting |
 | Calendar feed (iCal) | the public Indonesian holidays feed: RFC 5545 validity, required properties, unique UIDs, Independence Day on 17 August, current year present |
 | Books API | ISBN search accuracy, volume schema, lookup by id, pagination without duplicates, `maxResults` cap, language filter, errors |
+| Books API contract | keyless, from the public Discovery document: `volumes.list` requires `q`, `maxResults` 0–40, `volumes.get` by id, search filters, Volume schema |
 | Web platform | sign-in never over HTTP, HSTS with subdomains, clickjacking/XSS headers, robots.txt, security.txt (RFC 9116), response time |
 | UI smoke (Playwright) | search box, search results, accessible name and language, no console errors |
 
@@ -25,7 +26,8 @@ published on every run.
   preload list. What Google does protect is sign-in: `accounts.google.com` always redirects to HTTPS and sends
   HSTS with `includeSubDomains`. The tests assert that, rather than an assumption.
 - The Books API's keyless quota is shared by every caller worldwide and runs out daily, so that layer uses a free
-  `GOOGLE_API_KEY` when one is configured and reports *not configured* otherwise.
+  `GOOGLE_API_KEY` when one is configured and reports *not configured* otherwise. A keyless contract layer,
+  checked against the API's Discovery document, keeps the Books API covered on every run.
 - Searching from a cloud IP usually triggers reCAPTCHA. That check reports *blocked*, separate from failures.
 
 ## Run it
